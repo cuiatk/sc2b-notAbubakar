@@ -25,6 +25,9 @@ public class ExtractTest {
     private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
     private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
     
+    private static final Tweet tweet3 = new Tweet(3, "john", "Implement by me @sheikh", d1);
+    private static final Tweet tweet4 = new Tweet(4, "trunk", "Another @sahab", d2);
+    
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
         assert false; // make sure assertions are enabled with VM argument: -ea
@@ -32,7 +35,7 @@ public class ExtractTest {
     
     @Test
     public void testGetTimespanTwoTweets() {
-        Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
+        Timespan timespan = Extract.getTimespan(Arrays.asList(tweet2, tweet1));
         
         assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d2, timespan.getEnd());
@@ -40,9 +43,16 @@ public class ExtractTest {
     
     @Test
     public void testGetMentionedUsersNoMention() {
-        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2));
         
         assertTrue("expected empty set", mentionedUsers.isEmpty());
+    }
+    
+    @Test
+    public void testGetMentionedUsersWithMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet3, tweet4));
+        
+        assertEquals("expected set value 2", 2, mentionedUsers.size());
     }
 
     /*
