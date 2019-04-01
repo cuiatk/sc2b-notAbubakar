@@ -59,10 +59,14 @@ public class Main {
         
         final Set<String> mentionedUsers = Extract.getMentionedUsers(tweets);
         System.err.println("covers " + mentionedUsers.size() + " Twitter users");
+        System.out.println(mentionedUsers);
         
         // infer the follows graph
         final Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
         System.err.println("follows graph has " + followsGraph.size() + " nodes");
+        for(Map.Entry m:followsGraph.entrySet()){  
+  		   System.out.println(m.getKey()+" "+m.getValue());  
+  		  }
         
         // print the top-N influencers
         final int count = 10;

@@ -3,6 +3,7 @@
  */
 package twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,22 @@ public class Filter {
      * @return all and only the tweets in the list whose author is username,
      *         in the same order as in the input list.
      */
-    public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+    @SuppressWarnings("null")
+	public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
+    	String numRegex   = ".*[0-9].*";
+        String alphaRegex = ".*[A-Z].*";
+        String betaRegex = ".*[a-z].*";
+        String gemmaRegex = ".*[-_].*";
+        List<Tweet> filteredTweets = new ArrayList<Tweet>();
+        
+        if (username.matches(numRegex) || username.matches(alphaRegex) || username.matches(betaRegex) || username.matches(gemmaRegex)) {
+			for(int i=0; i<tweets.size(); i++){
+				if(tweets.get(i).getAuthor().equals(username)){
+					filteredTweets.add(tweets.get(i));
+				}
+			}
+		}
+        return filteredTweets;
     }
 
     /**
@@ -41,7 +56,18 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+        
+    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	
+    	for(int i=0; i<tweets.size(); i++){
+    		
+    		if(tweets.get(i).getTimestamp().isAfter(timespan.getStart())){
+    			if(tweets.get(i).getTimestamp().isBefore(timespan.getEnd())){
+    				filteredTweets.add(tweets.get(i));
+    			}
+    		}
+    	}
+    	return filteredTweets;
     }
 
     /**
@@ -60,7 +86,27 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+        
+    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	
+    	for(int i=0; i<tweets.size(); i++){
+    		
+    		String text = tweets.get(i).getText();
+    		String[] values = text.split(" ");
+    		
+    		for(int j=0; j<values.length; j++){
+    			
+    			for(int k=0; k<words.size(); k++){
+    				
+    				if(values[j].equalsIgnoreCase(words.get(k))){
+    					filteredTweets.add(tweets.get(i));
+    					break;
+    				}
+    				break;	
+    			}
+    		}
+    	}
+    	return filteredTweets;
     }
 
 }

@@ -71,8 +71,6 @@ public class Extract {
         }
         }
         
-        System.out.println(mentionedUsers);
-        
         return mentionedUsers;
         
     }
